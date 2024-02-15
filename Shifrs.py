@@ -178,3 +178,37 @@ def encrypt_and_decrypt_anna(text, shift):
         stroka = (shift + i - alphabet.index(text[i]) + 26) % 26
         stra += alphabet[stroka]
     return stra
+
+
+def encrypt_sasha(text, key):
+	app = key
+	while len(key) < len(text):
+		key += app
+	key = key[:len(text)]
+	line = ""
+	for i in range(len(text)):
+		ind1 = bin(ENGLISH_ALPHABET.index(text[i]))[2:]
+		ind2 = bin(ENGLISH_ALPHABET.index(key[i]))[2:]
+		mx = max(ind1, ind2, key=len)
+		mn = list(filter(lambda x: x != mx, [ind1, ind2]))[0]
+		w = mx[:len(mx) - len(mn)] + ''.join(["0" if a == b else "1" for a, b in zip(mx[len(mx) - len(mn):], mn)])
+		line += str(ENGLISH_ALPHABET[int(w, 2)])
+	return line
+
+
+def decrypt_sasha(text, key):
+	app = key
+	while len(key) < len(text):
+		key += app
+	key = key[:len(text)]
+	line = ""
+	for i in range(len(text)):
+		ind1 = bin(ENGLISH_ALPHABET.index(text[i]))[2:]
+		ind2 = bin(ENGLISH_ALPHABET.index(key[i]))[2:]
+		p = [ind1, ind2]
+		mx = max(ind1, ind2, key=len)
+		p.remove(mx)
+		mn = p[0]
+		w = mx[:len(mx) - len(mn)] + ''.join([b if a == "0" else ("1" if b == "0" else "0") for a, b in zip(mx[len(mx) - len(mn):], mn)])
+		line += str(ENGLISH_ALPHABET[int(w, 2)])
+	return line
