@@ -86,9 +86,13 @@ class Coder(QMainWindow, Ui_MainWindow):
                 self.statusbar.showMessage("Неверный формат сообщения!")
         elif current_tab == 6:
             text = self.message_7.text()
+            key = self.key_2.text()
             if text != "" and all([let in ENGLISH_ALPHABET for let in text]):
-                encrypted_message = yaroslav_encrypt(text)
-                self.result_7.setText(encrypted_message)
+                if key != '' and all([let in ENGLISH_ALPHABET for let in key]):
+                    encrypted = encrypt_sasha(text, key)
+                    self.result_7.setText(encrypted)
+                else:
+                    self.statusbar.showMessage("Неверный формат ключа!")
             else:
                 self.statusbar.showMessage("Неверный формат сообщения!")
 
@@ -154,10 +158,14 @@ class Coder(QMainWindow, Ui_MainWindow):
             else:
                 self.statusbar.showMessage("Неверный формат сообщения!")
         elif current_tab == 6:
-            message = self.message_7.text()
-            if message.isdigit():
-                decrypted_message = yaroslav_decrypt(message)
-                self.result_7.setText(decrypted_message)
+            text = self.message_7.text()
+            key = self.key_2.text()
+            if text != "" and all([let in ENGLISH_ALPHABET for let in text]):
+                if key != '' and all([let in ENGLISH_ALPHABET for let in key]):
+                    decrypted = decrypt_sasha(text, key)
+                    self.result_7.setText(decrypted)
+                else:
+                    self.statusbar.showMessage("Неверный формат ключа!")
             else:
                 self.statusbar.showMessage("Неверный формат сообщения!")
 
